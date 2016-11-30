@@ -1,0 +1,128 @@
+#Linear Regression Report 
+<br />
+*`r input$name`* <br />   
+*`r as.character(format(Sys.Date(), format="%B %d, %Y"))`*
+
+<br />
+
+This report was created using the `r input$datasetame` data set.  The dependent variable in my analysis is `r input$outcome` and independent numeric variables in my analysis are `r input$varnum` and independent categorical variales are `r input$varcat`. 
+
+###1. Scatterplots
+
+<br />
+
+The scatterplot of `r input$outcome` and `r input$varnum` appear below. 
+
+```{r,echo=FALSE}
+if (length(input$varnum)==1){
+  plot(as.formula(paste(input$outcome,"~",input$varnum)),data=Dataset(),xlab=input$varnum,ylab=input$outcome,main=paste("Scatterplot for",input$outcome,"versus",input$varnum))
+}else if (length(input$varnum)>1){
+  pairs(as.formula(paste("~",paste(c(input$varnum,input$outcome),collapse="+"))),data=Dataset())
+}
+```
+
+`r input$text_scatt` 
+
+<br />
+
+###2. Boxplot
+
+<br />
+
+The boxplot of `r input$outcome` and `r input$varnum` appear below. 
+
+```{r,echo=FALSE}
+if (length(input$varcat)==1){
+      par(mfrow=c(1,1))
+      boxplot(as.formula(paste(input$outcome,"~",input$varcat)),xlab=input$varcat,ylab=input$outcome,data=Dataset(),main=paste("Boxplot of",input$outcome,"versus",input$varcat))
+    }else if (length(input$varcat)==2){
+      par(mfrow=c(1,2))
+      for (i in 1:length(input$varcat)){
+        boxplot(as.formula(paste(input$outcome,"~",(input$varcat)[i])),xlab=(input$varcat)[i],ylab=input$outcome,data=Dataset(),main=paste("Boxplot of",input$outcome,"versus",(input$varcat)[i]))
+      }
+    }else if (length(input$varcat)==3 || length(input$varcat)==4){
+      par(mfrow=c(2,2))
+      for (i in 1:length(input$varcat)){
+        boxplot(as.formula(paste(input$outcome,"~",(input$varcat)[i])),xlab=(input$varcat)[i],ylab=input$outcome,data=Dataset(),main=paste("Boxplot of",input$outcome,"versus",(input$varcat)[i]))
+      }
+    }else if (length(input$varcat)==5 ||length(input$varcat)==6){
+      par(mfrow=c(2,3))
+      for (i in 1:length(input$varcat)){
+        boxplot(as.formula(paste(input$outcome,"~",(input$varcat)[i])),xlab=(input$varcat)[i],ylab=input$outcome,data=Dataset(),main=paste("Boxplot of",input$outcome,"versus",(input$varcat)[i]))
+      }
+    }else if (length(input$varcat)==7 ||length(input$varcat)==8 ||length(input$varcat)==9){
+      par(mfrow=c(3,3))
+      for (i in 1:length(input$varcat)){
+        boxplot(as.formula(paste(input$outcome,"~",(input$varcat)[i])),xlab=(input$varcat)[i],ylab=input$outcome,data=Dataset(),main=paste("Boxplot of",input$outcome,"versus",(input$varcat)[i]))
+      }
+    }
+```
+
+`r input$text_box` 
+
+<br />
+
+###3. Summary Statistics
+
+<br />
+
+The summary statistics appear below. 
+
+```{r,echo=FALSE}
+summary(model())
+
+```
+
+`r input$text_summary` 
+
+<br />
+
+###4. Diagnostic plots
+
+<br />
+
+The diagnostic plots for model appear below. 
+
+```{r,echo=FALSE}
+par(mfrow=c(2,2))
+    plot(model())
+```
+
+`r input$text_diagno` 
+
+<br />
+
+###5. Added Variable Plots
+
+<br />
+
+The added variable plots appear below. 
+
+```{r,echo=FALSE}
+if ((dim(summary(model())$coef)[1]-1)<=9){
+      avPlots(model())
+    }else avPlots(model(),ask=FALSE,layout=c(5,3))
+```
+
+`r input$text_added` 
+
+<br />
+
+###6. Marginal model plots
+
+<br />
+
+The marginal model plots appear below. 
+
+```{r,echo=FALSE}
+if (is.null(input$varnum)&&is.null(input$varcat)==FALSE) {
+  return(NULL)
+  }else if(is.null(input$varnum)==FALSE){
+mmps(model(),terms=as.formula(paste("~",paste(input$varnum,collapse="+"))))
+  }
+```
+
+`r input$text_mmp` 
+
+<br />
+
