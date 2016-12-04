@@ -1,0 +1,17 @@
+{
+    "contents" : "library(shiny)\n\nsource(\"Code_essential.R\")\nshinyServer(function(input, output){\n  \n  #input for statistical analysis departure part for p1\n  formula_stat_depart_city1<-reactive({\n    stat_depart_city_output1<-statistical_departp1(input$dcity\n                                              )\n  plot(stat_depart_city_output1)\n  })\n  #input for statistical analysis departure part for p2\n  formula_stat_depart_city2<-reactive({\n    stat_depart_city_output2<-statistical_departp2(input$dcity\n    )\n    plot(stat_depart_city_output2)\n  })\n  \n  #input for statistical analysis departure part for p3p4\n  formula_stat_depart_city34<-reactive({\n    stat_depart_city_output34<-statistical_departp3p4(input$dcity\n    )\n    plot(stat_depart_city_output34)\n  })\n  #input for statistical analysis departure part for airline average fare change\n  formula_stat_depart_city_fare<-reactive({\n    stat_depart_city_output_fare<-statistical_depart_infor(input$dcity,input$acity\n    )\n    plot(stat_depart_city_output_fare)\n  })\n  #input for city_map_visulization\n  formula_city<-reactive({\n    city_output<-city_information(input$acity\n                                  )\n    plot(city_output)\n    })\n  \n  #link output for statistical analysis departure part p1\n  output$stat_depart_city_out1 <- renderPlot({\n    formula_stat_depart_city1()\n  })\n  #link output for statistical analysis departure part p2\n  output$stat_depart_city_out2 <- renderPlot({\n    formula_stat_depart_city2()\n  })\n  #link output for statistical analysis departure part p3p4\n  output$stat_depart_city_out34 <- renderPlot({\n    formula_stat_depart_city34()\n  })\n  \n  #link output for statistical analysis departure part for airline average fare change\n  output$stat_depart_city_out_fare <- renderPlot({\n    formula_stat_depart_city_fare()\n  })\n  \n  #link output for city_map_visulization  \n  output$city_out <- renderPlot({\n    formula_city()\n  })\n\n}\n\n)\n\n",
+    "created" : 1434411231570.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3120333000",
+    "id" : "FED3ED66",
+    "lastKnownWriteTime" : 1480533769,
+    "path" : "~/Desktop/computing/final/server.R",
+    "project_path" : "server.R",
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
